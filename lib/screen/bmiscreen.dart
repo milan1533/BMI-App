@@ -3,7 +3,16 @@ import '../compontnt/carddesign.dart';
 import '../compontnt/inputfielddesign.dart';
 
 class BMIScreen extends StatefulWidget {
-  const BMIScreen({super.key});
+
+  final String nameForHome;
+
+  const BMIScreen({
+    super.key,
+    required this.nameForHome,
+  }
+      );
+
+
 
   @override
   State<BMIScreen> createState() => _BMIScreenState();
@@ -15,8 +24,10 @@ class _BMIScreenState extends State<BMIScreen> {
   var ftController = TextEditingController();
   var wtController = TextEditingController();
 
+
   String result = "";
   String status = "";
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +42,9 @@ class _BMIScreenState extends State<BMIScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
 
-          const Text(
-            "Calculate Your BMI",
-            style: TextStyle(
+          Text(
+            "Calculate Your BMI, ${widget.nameForHome}",
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
@@ -221,6 +232,10 @@ class _BMIScreenState extends State<BMIScreen> {
             ),
 
           ),
+
+          SizedBox(height: 20,),
+
+
 
         ],
       ),
