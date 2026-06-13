@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../compontnt/carddesign.dart';
 import '../compontnt/inputfielddesign.dart';
 

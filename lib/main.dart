@@ -1,11 +1,11 @@
-import 'package:bmiapp/screen/bmiscreen.dart';
+import 'package:bmiapp/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main(){
   runApp(
      MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BMIScreen(),
+      home: SplashScreen(),
     )
   );
 }
