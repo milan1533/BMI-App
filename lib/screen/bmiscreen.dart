@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import '../compontnt/carddesign.dart';
+import '../compontnt/customcontainer.dart';
 import '../compontnt/inputfielddesign.dart';
 
 class BMIScreen extends StatefulWidget {
 
+  // nameForHome ab optional hai — bottom nav mein bina name ke bhi kaam karega
   final String nameForHome;
 
   const BMIScreen({
     super.key,
-    required this.nameForHome,
-  }
-      );
-
-
+    this.nameForHome = '',
+  });
 
   @override
   State<BMIScreen> createState() => _BMIScreenState();
@@ -34,210 +33,211 @@ class _BMIScreenState extends State<BMIScreen> {
 
     return Scaffold(
 
-      appBar: AppBar(
-        title: const Text("BMI Calculator"),
-      ),
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      body: Customcontainer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
 
-          Text(
-            "Calculate Your BMI, ${widget.nameForHome}",
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          SizedBox(
-            width: 350,
-            child: CardDesign(
-              child: inputDeisgn(
-                controller: inchController,
-                label: "Enter Height in Inch",
-                prefixIcon: Icons.height,
-                keyboardType: TextInputType.number,
+            Text(
+              widget.nameForHome.isNotEmpty
+                  ? "Calculate Your BMI, ${widget.nameForHome}"
+                  : "Calculate Your BMI",
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
 
-          SizedBox(
-            width: 350,
-            child: CardDesign(
-              child: inputDeisgn(
-                controller: ftController,
-                label: "Enter Height in Feet",
-                prefixIcon: Icons.height,
-                keyboardType: TextInputType.number,
+            const SizedBox(height: 20),
+
+            SizedBox(
+              width: 350,
+              child: CardDesign(
+                child: inputDeisgn(
+                  controller: inchController,
+                  label: "Enter Height in Inch",
+                  prefixIcon: Icons.height,
+                  keyboardType: TextInputType.number,
+                ),
               ),
             ),
-          ),
 
-          SizedBox(
-            width: 350,
-            child: CardDesign(
-              child: inputDeisgn(
-                controller: wtController,
-                label: "Enter Weight in KG",
-                prefixIcon: Icons.line_weight,
-                keyboardType: TextInputType.number,
+            SizedBox(
+              width: 350,
+              child: CardDesign(
+                child: inputDeisgn(
+                  controller: ftController,
+                  label: "Enter Height in Feet",
+                  prefixIcon: Icons.height,
+                  keyboardType: TextInputType.number,
+                ),
               ),
             ),
-          ),
 
-          const SizedBox(height: 25),
+            SizedBox(
+              width: 350,
+              child: CardDesign(
+                child: inputDeisgn(
+                  controller: wtController,
+                  label: "Enter Weight in KG",
+                  prefixIcon: Icons.line_weight,
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+            ),
 
-          // BUTTONS
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            const SizedBox(height: 25),
 
-              ElevatedButton(
+            // BUTTONS
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
 
-                onPressed: () {
+                ElevatedButton(
 
-                  var inch = inchController.text.trim();
-                  var ft = ftController.text.trim();
-                  var wt = wtController.text.trim();
+                  onPressed: () {
 
-                  if (
-                  inch.isNotEmpty &&
-                      ft.isNotEmpty &&
-                      wt.isNotEmpty
-                  ) {
+                    var inch = inchController.text.trim();
+                    var ft = ftController.text.trim();
+                    var wt = wtController.text.trim();
 
-                    var iInch = double.parse(inch);
-                    var iFt = double.parse(ft);
-                    var iWt = double.parse(wt);
+                    if (
+                    inch.isNotEmpty &&
+                        ft.isNotEmpty &&
+                        wt.isNotEmpty
+                    ) {
 
-                    var totalInch =
-                        (iFt * 12) + iInch;
+                      var iInch = double.parse(inch);
+                      var iFt = double.parse(ft);
+                      var iWt = double.parse(wt);
 
-                    var totalCm =
-                        totalInch * 2.54;
+                      var totalInch =
+                          (iFt * 12) + iInch;
 
-                    var totalM =
-                        totalCm / 100;
+                      var totalCm =
+                          totalInch * 2.54;
 
-                    double bmi =
-                        iWt / (totalM * totalM);
+                      var totalM =
+                          totalCm / 100;
 
-                    String health;
+                      double bmi =
+                          iWt / (totalM * totalM);
 
-                    if (bmi < 18.5) {
-                      health = "Underweight";
+                      String health;
+
+                      if (bmi < 18.5) {
+                        health = "Underweight";
+                      }
+                      else if (bmi < 25) {
+                        health =
+                        "Healthy / Perfect Body";
+                      }
+                      else if (bmi < 30) {
+                        health = "Overweight";
+                      }
+                      else {
+                        health = "Obese";
+                      }
+
+                      setState(() {
+                        result =
+                            bmi.toStringAsFixed(2);
+
+                        status = health;
+                      });
+
+                    } else {
+
+                      setState(() {
+
+                        result = "";
+
+                        status =
+                        "Fill All Fields";
+
+                      });
+
                     }
-                    else if (bmi < 25) {
-                      health =
-                      "Healthy / Perfect Body";
-                    }
-                    else if (bmi < 30) {
-                      health = "Overweight";
-                    }
-                    else {
-                      health = "Obese";
-                    }
 
-                    setState(() {
-                      result =
-                          bmi.toStringAsFixed(2);
+                  },
 
-                      status = health;
-                    });
+                  child: const Text(
+                    "Calculate",
+                  ),
 
-                  } else {
+                ),
+
+                const SizedBox(
+                  width: 15,
+                ),
+
+                ElevatedButton(
+
+                  onPressed: () {
+
+                    inchController.clear();
+
+                    ftController.clear();
+
+                    wtController.clear();
 
                     setState(() {
 
                       result = "";
 
-                      status =
-                      "Fill All Fields";
+                      status = "";
 
                     });
 
-                  }
+                  },
 
-                },
+                  child: const Text(
+                    "Reset",
+                  ),
 
-                child: const Text(
-                  "Calculate",
+                ),
+
+              ],
+            ),
+
+            const SizedBox(height: 25),
+
+            if (result.isNotEmpty)
+
+              Text(
+
+                "Your BMI is $result",
+
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight:
+                  FontWeight.bold,
                 ),
 
               ),
 
-              const SizedBox(
-                width: 15,
-              ),
-
-              ElevatedButton(
-
-                onPressed: () {
-
-                  inchController.clear();
-
-                  ftController.clear();
-
-                  wtController.clear();
-
-                  setState(() {
-
-                    result = "";
-
-                    status = "";
-
-                  });
-
-                },
-
-                child: const Text(
-                  "Reset",
-                ),
-
-              ),
-
-            ],
-          ),
-
-          const SizedBox(height: 25),
-
-          if (result.isNotEmpty)
+            const SizedBox(height: 10),
 
             Text(
 
-              "Your BMI is $result",
+              status,
 
               style: const TextStyle(
-                fontSize: 24,
+                fontSize: 20,
+                color: Colors.blue,
                 fontWeight:
                 FontWeight.bold,
               ),
 
             ),
 
-          const SizedBox(height: 10),
-
-          Text(
-
-            status,
-
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.blue,
-              fontWeight:
-              FontWeight.bold,
-            ),
-
-          ),
-
-          SizedBox(height: 20,),
+            SizedBox(height: 20,),
 
 
 
-        ],
+          ],
+        ),
       ),
     );
   }

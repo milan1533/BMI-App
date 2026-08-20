@@ -13,16 +13,19 @@ class CardDesign extends StatelessWidget{
   Widget build(BuildContext context){
 
 
-    return Card(
-      shadowColor: Colors.yellow,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-       elevation: 5,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Card(
+        shadowColor: Colors.yellow,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+         elevation: 5,
 
-      child: Padding(padding: EdgeInsets.all(5),
-        child: child,)
+        child: Padding(padding: EdgeInsets.all(5),
+          child: child,)
+      ),
     );
   }
 }
